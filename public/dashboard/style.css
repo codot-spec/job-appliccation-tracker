@@ -1,0 +1,153 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fc;
+  color: #333;
+}
+
+h1, h2 {
+  font-family: 'Arial', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+/* Header */
+header {
+  background-color: #007bff;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header button {
+  padding: 10px 15px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+header button:hover {
+  background-color: #c82333;
+}
+
+/* Main Content */
+main {
+  padding: 20px;
+}
+
+/* Section Style */
+section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+section h2 {
+  margin-top: 0;
+}
+
+/* Job Application Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+form label {
+  font-size: 0.9rem; /* Smaller label text */
+  margin-bottom: 5px;
+}
+
+form input,
+form select,
+form textarea {
+  padding: 8px;  /* Smaller padding */
+  font-size: 0.9rem;  /* Smaller font size */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button {
+  padding: 10px;  /* Slightly smaller button */
+  font-size: 0.9rem;  /* Smaller font size for the button */
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #218838;
+}
+
+/* Application List */
+#applicationList {
+  margin-top: 20px;
+  list-style-type: none;
+  padding: 0;
+}
+
+#applicationList li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+#applicationList li:last-child {
+  border-bottom: none;
+}
+
+/* Pagination Info */
+#paginationInfo {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Reminders Link */
+.reminders-link {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  background-color: #007bff;  /* Blue background */
+  padding: 10px 20px;  /* Adding padding for better spacing */
+  border-radius: 5px;  /* Rounded corners */
+  margin-bottom: 15px;
+  display: inline-block;  /* Make sure it behaves as a block */
+  text-align: center;  /* Center the text inside */
+  transition: background-color 0.3s, transform 0.3s;  /* Smooth transition */
+}
+
+.reminders-link:hover {
+  background-color: #0056b3;  /* Darker blue on hover */
+  transform: translateY(-3px);  /* Slight upward shift on hover */
+}
+
+.reminders-link:active {
+  transform: translateY(0);  /* Reset position when clicked */
+}
+

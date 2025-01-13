@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+        <button id="logoutBtn" onclick="logout()">Logout</button>
+    </header>
+
+    <main>
+        <section>
+            <h2>Job Application Tracker</h2>
+            <a href="/reminders/reminders.html" class="reminders-link">Go to Reminders</a>
+            <form id="form" onsubmit="handleFormSubmit(event)">
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle" name="jobTitle" required>
+
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company" required>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="applied">Applied</option>
+                    <option value="interview">Interview</option>
+                    <option value="offered">Offered</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+                
+                <label for="note">Salary:</label>
+               <input type="text" id="note" name="note">
+
+                <label for="dateApplied">Date Applied:</label>
+                <input type="date" id="dateApplied" name="dateApplied" required>
+
+                <label for="attachment">Attach File:</label>
+                <input type="file" id="attachment" name="attachment">
+
+                <button type="submit">Submit</button>
+            </form>
+            <div class="form-group2">
+                <label for="rowsperpage">Rows Per Page</label>
+                <select id="rowsperpage" name="rowsperpage">
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                
+              </div>
+            <ul id="applicationList">
+            </ul>
+
+            <div id="paginationInfo"></div>
+        </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
+    <script src="./dashboard.js"></script>
+   
+</body>
+</html>
