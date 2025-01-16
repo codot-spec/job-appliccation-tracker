@@ -114,3 +114,7 @@ function logout() {
   localStorage.clear();
   window.location.href = "http://localhost:3000";
 }
+
+function profile(){
+  window.location.href = "../profile/index.html";
+}

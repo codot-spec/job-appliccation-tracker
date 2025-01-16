@@ -13,7 +13,6 @@ const User = require('./models/users');
 const Application = require('./models/applications');
 const Reminders = require('./models/reminders')
  const Forgotpassword = require('./models/forgotpassword');
-//const DownloadedContent = require('./models/contentloaded');
 
 
 const userRoutes = require('./routes/user');  // Importing user routes

@@ -74,6 +74,7 @@ function fetchAndDisplayApplications(page = 1, rowsPerPage = 2) {
     headers: { "Authorization": token }
   })
   .then(response => {
+    console.log(response.data);
     const { applications, pagination } = response.data;
     const applicationList = document.getElementById('applicationList');
     applicationList.innerHTML = '';  // Clear previous list
@@ -86,21 +87,26 @@ function fetchAndDisplayApplications(page = 1, rowsPerPage = 2) {
       let innerHTML = `
         <p>${application.jobTitle} - ${application.company} - ${application.status} - ${application.note} - ${application.dateApplied}</p>
         <button onclick="deleteApplication(${application.id})">Delete</button>
-        <button onclick="editApplication(${application.id}, '${application.jobTitle}', '${application.company}', '${application.status}', '${application.note}', '${application.dateApplied}')">Edit</button>
+        <button onclick="editApplication(${application.id}, '${application.jobTitle}', '${application.company}', '${application.status}', '${application.note}', '${application.dateApplied}', '${application.attachment}')">Edit</button>
       `;
 
-      // If there is an image, add the image to the list item
-      if (application.image) {
+      // Set the inner HTML for the list item (application details)
+      item.innerHTML = innerHTML;
+
+      // Add the image if it's available
+      if (application.attachment) {
         const imageElement = document.createElement('img');
         imageElement.style.width = '50%';
         imageElement.style.objectFit = 'contain';
-        imageElement.src = application.image; // Set the image source
-        item.appendChild(imageElement); // Append the image element to the list item
+        imageElement.src = application.attachment; // Set the image source
+        // Wrap the image in an anchor tag to make it clickable and open in a new tab
+  const link = document.createElement('a');
+  link.href = application.attachment;
+  link.target = '_blank';  // Opens in a new tab
+
+  link.appendChild(imageElement); // Append the image inside the anchor tag
+  item.appendChild(link); // Append the anchor tag to the list item
       }
-
-      // Set the inner HTML of the list item
-      item.innerHTML = innerHTML;
-
       // Append the item to the application list
       applicationList.appendChild(item);
     });
@@ -116,20 +122,26 @@ function fetchAndDisplayApplications(page = 1, rowsPerPage = 2) {
   .catch(error => console.log(error));
 }
 
-  
+
 
 
 // Edit an application
-function editApplication(applicationId, jobTitle, company, status, note, dateApplied) {
+function editApplication(applicationId, jobTitle, company, status, note, dateApplied, attachment) {
   document.getElementById('jobTitle').value = jobTitle;
   document.getElementById('company').value = company;
   document.getElementById('status').value = status;
   document.getElementById('note').value = note;
   document.getElementById('dateApplied').value = dateApplied;
-  
   document.getElementById('form').dataset.applicationId = applicationId; // Store application ID for editing
-}
 
+  // Display the current attachment if it exists
+  const attachmentPreview = document.getElementById('attachmentPreview');
+  if (attachment) {
+    attachmentPreview.innerHTML = `<a href="${attachment}" target="_blank">View Current Attachment</a>`;
+  } else {
+    attachmentPreview.innerHTML = 'No attachment available';
+  }
+}
 
 // Event listener for rows per page selection
 document.getElementById('rowsperpage').addEventListener('change', (event)=> {
@@ -150,4 +162,8 @@ reloadApplications();
 function logout() {
   localStorage.clear();
   window.location.href = "http://localhost:3000";
+}
+
+function profile(){
+  window.location.href = "../profile/index.html";
 }

@@ -2,39 +2,6 @@ const Application = require('../models/applications');
 const sequelize = require('../util/database');
 const { uploads } = require('../util/upload');
 
-// function upload(data, filename) {
-//   const BUCKET_NAME = process.env.BUCKET_NAME;
-//   const IAM_USER_KEY = process.env.IAM_USER_KEY;
-//   const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
-
-//   const s3bucket = new AWS.S3({
-//     accessKeyId: IAM_USER_KEY,
-//     secretAccessKey: IAM_USER_SECRET
-//   });
-
-//   // Ensure that the data is a string (or Buffer) for the Body
-//   //const bufferData = Buffer.from(data, 'utf-8');  // Convert string data to Buffer if needed
-
-//   const params = {
-//     Bucket: BUCKET_NAME,
-//     Key: filename,
-//     Body: data,  // Body is the content of the file
-//     ACL: 'public-read'
-//   };
-
-//   return new Promise((resolve, reject) =>{
-//     s3bucket.upload(params, (err, s3response) => {
-//       if (err) {
-//         console.log("Something went wrong", err);
-//         reject(err);
-//       } else {
-//        // console.log("Success", s3response);
-//        resolve(s3response.Location);
-//       }
-//     });
-//   })
-// }
-
 
 
 // Log Job Application
@@ -100,40 +67,60 @@ const limit = parseInt(req.query.limit, 10) || 2; // Default to limit 2 if not p
 // Update a job application by ID
 exports.updateApplication = async (req, res, next) => {
   const applicationId = req.params.applicationId;
-  const { jobTitle, company,  status, note ,dateApplied} = req.body;
-  const t = await sequelize.transaction();  // Start transaction
+  const { jobTitle, company, status, note, dateApplied } = req.body;
+  const imageFile = req.file; // Get the uploaded image file (if any)
+  const t = await sequelize.transaction(); // Start transaction
 
   try {
     // Find the application to update
     const application = await Application.findOne({
       where: {
         id: applicationId,
-        userId: req.user.id
+        userId: req.user.id,
       },
-       transaction: t
+      transaction: t,
     });
 
     if (!application) {
       return res.status(404).json({ message: 'Application not found' });
     }
 
-    // Save the updated application to the database
-    await Application.update({ jobTitle, company,  status, note, dateApplied },
-      { where: { id: applicationId, userId: req.user.id }, transaction: t });
+    let uploadedImageUrl;
 
-      await t.commit();  // Commit the transaction
-      const updatedApplication = await Application.findOne({
-        where: { id: applicationId, userId: req.user.id }
-      });
-  
-      res.status(200).json(updatedApplication);
+    // Handle attachment update logic
+    if (imageFile) {
+      // Upload the new image and store the URL
+      uploadedImageUrl = await uploads(imageFile);
+
+      // If the application already has an attachment, delete it (optional)
+      if (application.attachment) {
+        // Implement logic to delete the existing attachment file (based on your storage strategy)
+        console.log('Delete existing attachment:', application.attachment); // Placeholder for deletion logic
+      }
+    } else {
+      // Use the existing attachment URL if no new image is uploaded
+      uploadedImageUrl = application.attachment;
+    }
+
+    // Update the application with new details (including attachment URL)
+    await Application.update(
+      { jobTitle, company, status, note, dateApplied, attachment: uploadedImageUrl },
+      { where: { id: applicationId, userId: req.user.id }, transaction: t }
+    );
+
+    await t.commit(); // Commit the transaction
+
+    const updatedApplication = await Application.findOne({
+      where: { id: applicationId, userId: req.user.id },
+    });
+
+    res.status(200).json(updatedApplication);
   } catch (error) {
     t.rollback();
     console.error(error);
     res.status(500).json({ message: 'Error updating application', error });
   }
 };
-
 // Delete a job application by ID
 exports.deleteApplication = async (req, res, next) => {
   const applicationId = req.params.applicationId;
