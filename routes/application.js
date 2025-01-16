@@ -19,10 +19,5 @@ router.put('/:applicationId',userauthentication.authenticate, applicationControl
 
 router.delete('/:applicationId',userauthentication.authenticate, applicationController.deleteApplication);
 
-// router.get('/download',userauthentication.authenticate, expenseController.downloadExpense)
-
-// router.get('/downloaded-content',userauthentication.authenticate, expenseController.getDownloadedContent);
-
-// router.get('/date-range', userauthentication.authenticate, expenseController.getExpensesByDateRange);
 
 module.exports = router;
