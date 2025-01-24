@@ -106,6 +106,7 @@ form button:hover {
 }
 
 /* Application List */
+/* General Styles */
 .application-container {
   display: flex;
   justify-content: space-between;
@@ -200,8 +201,6 @@ form button:hover {
   color: #333;
 }
 
-
-
 /* Reminders Link */
 .reminders-link {
   font-size: 1rem;
@@ -222,6 +221,28 @@ form button:hover {
 }
 
 .reminders-link:active {
+  transform: translateY(0);  /* Reset position when clicked */
+}
+
+.dashboard-link {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  background-color: #007bff;  /* Blue background */
+  padding: 10px 20px;  /* Adding padding for better spacing */
+  border-radius: 5px;  /* Rounded corners */
+  margin-bottom: 15px;
+  display: inline-block;  /* Make sure it behaves as a block */
+  text-align: center;  /* Center the text inside */
+  transition: background-color 0.3s, transform 0.3s;  /* Smooth transition */
+}
+
+.dashboard-link:hover {
+  background-color: #0056b3;  /* Darker blue on hover */
+  transform: translateY(-3px);  /* Slight upward shift on hover */
+}
+
+.dashboard-link:active {
   transform: translateY(0);  /* Reset position when clicked */
 }
 

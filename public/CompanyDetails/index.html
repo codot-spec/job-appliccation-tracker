@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <header>
         <h1>Dashboard</h1>
         <input id="filter" type="text" placeholder="Search Entry..." />
-        <button id="company" onclick="company()">Companies To Check</button>
         <button id="profile" onclick="profile()">Profile</button>
         <button id="logoutBtn" onclick="logout()">Logout</button>
     </header>
@@ -19,26 +18,24 @@
         <section>
             <h2>Job Application Tracker</h2>
             <a href="/reminders/reminders.html" class="reminders-link">Go to Reminders</a>
+            <a href="/dashboard/dashboard.html" class="dashboard-link">Go to Dashboard</a>
             <form id="form" onsubmit="handleFormSubmit(event)">
-                <label for="jobTitle">Job Title:</label>
+                <label for="jobTitle">Company Name:</label>
                 <input type="text" id="jobTitle" name="jobTitle" required>
 
-                <label for="company">Company:</label>
+                <label for="company">Company Size:</label>
                 <input type="text" id="company" name="company" required>
 
-                <label for="status">Status:</label>
+                <label for="status">Open Position:</label>
                 <select id="status" name="status" required>
-                    <option value="applied">Applied</option>
-                    <option value="interview">Interview</option>
-                    <option value="offered">Offered</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="Jr Developer">Jr Developer</option>
+                    <option value="Sr Developer">Sr Developer</option>
+                    <option value="Jr Manager">Jr Manager</option>
+                    <option value="Sr Manager">Sr Manager</option>
                 </select>
                 
-                <label for="note">Salary:</label>
+                <label for="note">Notes:</label>
                <input type="text" id="note" name="note">
-
-                <label for="dateApplied">Date Applied:</label>
-                <input type="date" id="dateApplied" name="dateApplied" required>
 
                 <label for="attachment">Attach File:</label>
                 <input type="file" id="attachment" name="attachment">
@@ -63,7 +60,7 @@
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"></script>
-    <script src="./dashboard.js"></script>
+    <script src="./index.js"></script>
    
 </body>
 </html>

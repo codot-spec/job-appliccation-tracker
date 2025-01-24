@@ -9,6 +9,8 @@
 <body>
     <header>
         <h1>Reminders</h1>
+        <input id="filter" type="text" placeholder="Search Entry..." />
+        <button id="company" onclick="company()">Companies To Check</button>
         <button id="profile" onclick="profile()">Profile</button>
         <button id="logoutBtn" onclick="logout()">Logout</button>
     </header>
@@ -18,7 +20,6 @@
         <section>
             <h2>Manage Reminders</h2>
             <a href="/dashboard/dashboard.html" class="dashboard-link">Go to Dashboard</a>
-          <!-- <a href="/profile/profile.html" class="profile-link">Profile</a> -->
             <form id="form" onsubmit="handleAddReminder(event)">
                 <label for="reminderDate">Reminder Date:</label>
                 <input type="date" id="reminderDate" name="reminderDate" required>

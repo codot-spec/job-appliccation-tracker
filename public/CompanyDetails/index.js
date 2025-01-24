@@ -12,13 +12,12 @@ function handleFormSubmit(event) {
    formData.append('company',event.target.company.value);
    formData.append('status',event.target.status.value);
    formData.append('note',event.target.note.value);
-   formData.append('dateApplied',event.target.dateApplied.value);
   
   const token = localStorage.getItem('token'); // Get the token from localStorage
 
   if (applicationId) {
     // If editing an existing application
-    axios.put(`http://localhost:3000/applications/${applicationId}`, 
+    axios.put(`http://localhost:3000/company/${applicationId}`, 
       formData, { headers: { "Authorization": token } })
       .then(response => {
         reloadApplications();
@@ -26,7 +25,7 @@ function handleFormSubmit(event) {
       .catch(error => console.log(error));
   } else {
     // If adding a new application
-    axios.post("http://localhost:3000/applications", formData, 
+    axios.post("http://localhost:3000/company", formData, 
       { headers: { "Authorization": token } })
       .then(response => {
         reloadApplications();
@@ -48,25 +47,21 @@ function reloadApplications() {
 }
 
 
-async function deleteApplication(applicationId) {
-  try {
-    const token = localStorage.getItem('token'); // Get the token from localStorage
-    await axios.delete(`http://localhost:3000/applications/${applicationId}`, {
-      headers: { "Authorization": token }
-    });
-    reloadApplications(); // Reload the applications after deletion
-  } catch (error) {
-    console.log(error); // Handle any errors
-  }
+function deleteApplication(applicationId) {
+  const token = localStorage.getItem('token'); // Get the token from localStorage
+  axios.delete(`http://localhost:3000/company/${applicationId}`, { headers: { "Authorization": token } })
+    .then(() => {
+      reloadApplications();
+    })
+    .catch(error => console.log(error));
 }
-
 
 
 
 function fetchAndDisplayApplications(page = 1, rowsPerPage = 2) {
   const token = localStorage.getItem('token');
 
-  axios.get(`http://localhost:3000/applications?page=${page}&limit=${rowsPerPage}`, {
+  axios.get(`http://localhost:3000/company?page=${page}&limit=${rowsPerPage}`, {
     headers: { "Authorization": token }
   })
   .then(response => {
@@ -86,18 +81,17 @@ function fetchAndDisplayApplications(page = 1, rowsPerPage = 2) {
       const detailsSection = document.createElement('div');
       detailsSection.classList.add('application-details');
       detailsSection.innerHTML = `
-        <span class="application-jobTitle"><strong>Job Title:</strong> ${application.jobTitle}</span>
-        <span class="application-company"><strong>Company Name:</strong> ${application.company}</span>
-        <span class="application-status"><strong>Status:</strong> ${application.status}</span>
-        <span class="application-note"><strong>Salary:</strong> ${application.note}</span>
-        <span class="application-dateApplied"><strong>Applied on:</strong> ${application.dateApplied}</span>
+        <span class="application-jobTitle"><strong>Company Name:</strong> ${application.jobTitle}</span>
+        <span class="application-company"><strong>Company Size:</strong> ${application.company}</span>
+        <span class="application-status"><strong>Open Position:</strong> ${application.status}</span>
+        <span class="application-note"><strong>Notes:</strong> ${application.note}</span>
         <div class="application-actions">
           <button onclick="deleteApplication(${application.id})">Delete</button>
-          <button onclick="editApplication(${application.id}, '${application.jobTitle}', '${application.company}', '${application.status}', '${application.note}', '${application.dateApplied}')">Edit</button>
+          <button onclick="editApplication(${application.id}, '${application.jobTitle}', '${application.company}', '${application.status}', '${application.note}')">Edit</button>
         </div>
       `;
 
-      // Create the image section (right side) if there is an attachment
+      // If there's an attachment, display it
       if (application.attachment) {
         const imageSection = document.createElement('div');
         imageSection.classList.add('application-image');
@@ -136,13 +130,13 @@ function fetchAndDisplayApplications(page = 1, rowsPerPage = 2) {
 
 
 
+
 // Edit an application
 function editApplication(applicationId, jobTitle, company, status, note, dateApplied, attachment) {
   document.getElementById('jobTitle').value = jobTitle;
   document.getElementById('company').value = company;
   document.getElementById('status').value = status;
   document.getElementById('note').value = note;
-  document.getElementById('dateApplied').value = dateApplied;
   document.getElementById('form').dataset.applicationId = applicationId; // Store application ID for editing
 
   document.getElementById('attachment').files[0].value = attachment;
@@ -191,12 +185,9 @@ filter.addEventListener('keyup', (event) => {
     const company = currentApplicationItem.querySelector('.application-company').textContent.toLowerCase();
     const status = currentApplicationItem.querySelector('.application-status').textContent.toLowerCase();
     const note = currentApplicationItem.querySelector('.application-note').textContent.toLowerCase();
-    const dateApplied = currentApplicationItem.querySelector('.application-dateApplied').textContent.toLowerCase();
-
     // Check if any of the fields match the entered text
     const isMatch = jobTitle.includes(textEntered) || company.includes(textEntered) ||
-                    status.includes(textEntered) || note.includes(textEntered) ||
-                    dateApplied.includes(textEntered);
+                    status.includes(textEntered) || note.includes(textEntered)
 
     // Show or hide the item based on the match
     currentApplicationItem.style.display = isMatch ? 'block' : 'none';

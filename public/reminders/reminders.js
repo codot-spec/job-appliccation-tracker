@@ -51,37 +51,57 @@ function deleteReminder(reminderId) {
 }
 
 
+  
 
-  function fetchAndDisplayReminders(page = 1, rowsPerPage = 2) {
-    const token = localStorage.getItem('token');
-  
-    axios.get(`http://localhost:3000/reminders?page=${page}&limit=${rowsPerPage}`, {
-      headers: { "Authorization": token }
-    })
-    .then(response => {
-      const { reminders, pagination } = response.data;
-      const reminderList = document.getElementById('reminderList');
-      reminderList.innerHTML = '';  // Clear previous list
-  
-      reminders.forEach(reminder => {
-        const item = document.createElement("li");
-        item.setAttribute("data-id", reminder.id); // Make sure the id is set correctly here
-        item.innerHTML = `${reminder.reminderDate} - ${reminder.reminderMessage}
+function fetchAndDisplayReminders(page = 1, rowsPerPage = 2) {
+  const token = localStorage.getItem('token');
+
+  axios.get(`http://localhost:3000/reminders?page=${page}&limit=${rowsPerPage}`, {
+    headers: { "Authorization": token }
+  })
+  .then(response => {
+    const { reminders, pagination } = response.data;
+    const reminderList = document.getElementById('reminderList');
+    reminderList.innerHTML = '';  // Clear previous list
+
+    reminders.forEach(reminder => {
+      const item = document.createElement("li");
+      item.setAttribute("data-id", reminder.id); // Set the ID for the reminder
+
+      // Create container for reminder details
+      const container = document.createElement('div');
+      container.classList.add('reminder-container');
+
+      // Create the details section (left side)
+      const detailsSection = document.createElement('div');
+      detailsSection.classList.add('reminder-details');
+      detailsSection.innerHTML = `
+        <span class="reminder-date"><strong>Reminder Date:</strong> ${reminder.reminderDate}</span>
+        <span class="reminder-message"><strong>Reminder Message:</strong> ${reminder.reminderMessage}</span>
+        <div class="reminder-actions">
           <button onclick="deleteReminder(${reminder.id})">Delete</button>
-          <button onclick="editReminder(${reminder.id}, '${reminder.reminderDate}', '${reminder.reminderMessage}')">Edit</button>`;
-        reminderList.appendChild(item);
-      });
-  
-      // Display pagination buttons
-      const paginationInfo = document.getElementById('paginationInfo');
-      paginationInfo.innerHTML = `
-        <p>Page ${pagination.currentPage} of ${pagination.totalPages}</p>
-        <button onclick="fetchAndDisplayReminders(${pagination.currentPage - 1}, ${rowsPerPage})" ${pagination.currentPage <= 1 ? 'disabled' : ''}>Previous</button>
-        <button onclick="fetchAndDisplayReminders(${pagination.currentPage + 1}, ${rowsPerPage})" ${pagination.currentPage >= pagination.totalPages ? 'disabled' : ''}>Next</button>
+          <button onclick="editReminder(${reminder.id}, '${reminder.reminderDate}', '${reminder.reminderMessage}')">Edit</button>
+        </div>
       `;
-    })
-    .catch(error => console.log(error));
-  }
+
+      container.appendChild(detailsSection);
+      item.appendChild(container);
+
+      // Append the item to the reminder list
+      reminderList.appendChild(item);
+    });
+
+    // Display pagination buttons
+    const paginationInfo = document.getElementById('paginationInfo');
+    paginationInfo.innerHTML = `
+      <p>Page ${pagination.currentPage} of ${pagination.totalPages}</p>
+      <button onclick="fetchAndDisplayReminders(${pagination.currentPage - 1}, ${rowsPerPage})" ${pagination.currentPage <= 1 ? 'disabled' : ''}>Previous</button>
+      <button onclick="fetchAndDisplayReminders(${pagination.currentPage + 1}, ${rowsPerPage})" ${pagination.currentPage >= pagination.totalPages ? 'disabled' : ''}>Next</button>
+    `;
+  })
+  .catch(error => console.log(error));
+}
+
   
 
 
@@ -118,3 +138,28 @@ function logout() {
 function profile(){
   window.location.href = "../profile/index.html";
 }
+
+function company(){
+  window.location.href = "../CompanyDetails/index.html";
+}
+
+
+const filter = document.getElementById('filter');
+filter.addEventListener('keyup', (event) => {
+  const textEntered = event.target.value.toLowerCase(); // Get the entered search text
+  const reminderList = document.getElementById('reminderList');
+  const reminderItems = reminderList.getElementsByTagName('li'); // Get all the list items
+  
+  // Loop through each reminder item
+  for (let i = 0; i < reminderItems.length; i++) {
+    const currentReminderItem = reminderItems[i];
+    const currentReminderMessage = currentReminderItem.querySelector('.reminder-message').textContent.toLowerCase(); // Reminder message
+    const currentReminderDate = currentReminderItem.querySelector('.reminder-date').textContent.toLowerCase(); // Reminder date
+
+    // Check if the entered text matches the reminder message or reminder date (case-insensitive)
+    const isMatch = currentReminderMessage.includes(textEntered) || currentReminderDate.includes(textEntered);
+
+    // Show or hide the item based on the match
+    currentReminderItem.style.display = isMatch ? 'block' : 'none';
+  }
+});

@@ -1,5 +1,5 @@
 const express = require('express');
-const applicationController = require('../controllers/applications');
+const applicationController = require('../controllers/companies');
 const userauthentication = require('../middleware/auth')
 const multer = require('multer');
 

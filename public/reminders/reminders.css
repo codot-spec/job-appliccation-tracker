@@ -128,24 +128,83 @@ form button:hover {
 }
 
 /* Reminder List */
-#reminderList {
-  margin-top: 20px;
-  list-style-type: none;
-  padding: 0;
+.reminder-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#reminderList li {
-  padding: 8px;  /* Smaller padding for the list items */
-  border-bottom: 1px solid #eee;
+.reminder-details {
+  flex: 1;
+  font-family: 'Arial', sans-serif;
+  color: #333;
 }
 
-#reminderList li:last-child {
-  border-bottom: none;
+.reminder-details span {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
 }
 
-/* Pagination Info */
+.reminder-details strong {
+  font-weight: bold;
+  color: #2a9d8f; /* Set the same color for all labels */
+}
+
+.reminder-details span {
+  font-weight: normal;
+  color: #333; /* Keep the text color the same for details */
+}
+
+.reminder-actions button {
+  background-color: #e76f51;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.reminder-actions button:hover {
+  background-color: #d55b42;
+}
+
+.reminder-container:hover {
+  background-color: #f1f1f1;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Pagination Styles */
 #paginationInfo {
-  margin-top: 10px;
-  font-size: 0.9rem;  /* Smaller font size */
-  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#paginationInfo button {
+  background-color: #2a9d8f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#paginationInfo button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+#paginationInfo p {
+  font-size: 16px;
+  color: #333;
 }

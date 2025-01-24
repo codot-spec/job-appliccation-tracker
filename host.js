@@ -13,13 +13,13 @@ const User = require('./models/users');
 const Application = require('./models/applications');
 const Reminders = require('./models/reminders')
  const Forgotpassword = require('./models/forgotpassword');
-
+const Company = require('./models/companies')
 
 const userRoutes = require('./routes/user');  // Importing user routes
 const applicationRoutes = require('./routes/application');
 const reminderRoutes = require('./routes/reminders')
  const resetPasswordRoutes = require('./routes/resetpassword')
-
+const companyRoutes = require('./routes/company')
 
 
 const accessLogStream = fs.createWriteStream(
@@ -47,7 +47,7 @@ app.use('/user', userRoutes);  // Use /user routes for user operations
 app.use('/applications',applicationRoutes);
 app.use('/reminders', reminderRoutes);
  app.use('/password', resetPasswordRoutes);
-
+app.use('/company',companyRoutes);
 
 Application.belongsTo(User);
 User.hasMany(Application);
@@ -55,20 +55,31 @@ User.hasMany(Application);
 Reminders.belongsTo(User);
 User.hasMany(Reminders);
 
+Company.belongsTo(User);
+User.hasMany(Company);
+
  User.hasMany(Forgotpassword);
  Forgotpassword.belongsTo(User);
 
-// User.hasMany(DownloadedContent);
-// DownloadedContent.belongsTo(User);
 
 sequelize.sync()
   .then(() => {
     app.listen(3000);
   })
-  .catch(err => {
-    console.error(err);
+  .catch((err) => {
+    console.log(err);
   });
 
+  // async function server() {
+  //   try {
+  //     await sequelize.sync();  // Wait for the database sync to complete
+  //     app.listen(3000);
+  //   } catch (err) {
+  //     console.log('Error while syncing the database:', err);  // Log error if sync fails
+  //   }
+  // }
+  
+ 
 // Once the email is entered for password reset, generate the reset link.
 // Open the link generation process and manually insert the user ID after the reset link.
 // Note: The email sending API is not registered, so email will not be sent automatically.

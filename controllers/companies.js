@@ -1,4 +1,4 @@
-const Application = require('../models/applications');
+const Application = require('../models/companies');
 const sequelize = require('../util/database');
 const { uploads } = require('../util/upload');
 
@@ -7,7 +7,7 @@ const { uploads } = require('../util/upload');
 // Log Job Application
 exports.logApplication = async (req, res, next) => {
    const t = await sequelize.transaction();
-  const { jobTitle, company,  status, note , dateApplied} = req.body;
+  const { jobTitle, company,  status, note} = req.body;
   const imageFile = req.file;
 
   try {
@@ -19,7 +19,6 @@ exports.logApplication = async (req, res, next) => {
       company, 
       status,
       note,
-      dateApplied,
       attachment : uploadedImageUrl
     }, {transaction : t});
 
@@ -67,7 +66,7 @@ const limit = parseInt(req.query.limit, 10) || 2; // Default to limit 2 if not p
 // Update a job application by ID
 exports.updateApplication = async (req, res, next) => {
   const applicationId = req.params.applicationId;
-  const { jobTitle, company, status, note, dateApplied } = req.body;
+  const { jobTitle, company, status, note } = req.body;
   const imageFile = req.file; // Get the uploaded image file (if any)
   const t = await sequelize.transaction(); // Start transaction
 
@@ -90,7 +89,7 @@ exports.updateApplication = async (req, res, next) => {
 
     // Update the application with new details (including attachment URL)
     await Application.update(
-      { jobTitle, company, status, note, dateApplied, attachment: uploadedImageUrl },
+      { jobTitle, company, status, note, attachment: uploadedImageUrl },
       { where: { id: applicationId, userId: req.user.id }, transaction: t }
     );
 
