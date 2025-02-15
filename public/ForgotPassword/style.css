@@ -82,3 +82,34 @@ button:hover {
         padding: 10px;
     }
 }
+
+
+@media (max-width: 600px) {
+    form {
+      padding: 20px;
+      width: 90%;
+    }
+  
+    input[type="email"], button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  
+  /* Add styles for the password input field */
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  /* Focus effect for the password input */
+  input[type="password"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }

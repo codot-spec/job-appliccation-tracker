@@ -1,4 +1,8 @@
 const User = require('../models/users');
+const Applications = require('../models/applications');
+const Companies = require('../models/companies');
+const Reminders = require('../models/reminders');
+const ForgotPassword = require('../models/forgotpassword');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userController=require('./user');
@@ -119,6 +123,12 @@ exports.deleteUser = async (req, res) => {
     if (req.user.id !== user.id) {
       return res.status(403).json({ message: 'You can only delete your own profile' });
     }
+  
+    await Applications.destroy({ where: { userId: userId } });
+    await Companies.destroy({ where: { userId: userId } });
+    await Reminders.destroy({ where: { userId: userId } });
+    await ForgotPassword.destroy({ where: { userId: userId } });
+
     await user.destroy();
 
     res.status(200).json({ message: 'User deleted successfully' });

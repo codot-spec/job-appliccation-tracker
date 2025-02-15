@@ -246,3 +246,31 @@ form button:hover {
   transform: translateY(0);  /* Reset position when clicked */
 }
 
+@media (max-width: 768px) {
+  /* Adjust header styles for smaller screens */
+  header {
+    flex-direction: column; 
+    text-align: center;
+  }
+
+  /* Adjust form styles for smaller screens */
+  form {
+    max-width: 100%; 
+    padding: 20px; 
+  }
+
+  /* Adjust application list styles for smaller screens */
+  .application-container {
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .application-details {
+    margin-bottom: 15px; 
+  }
+
+  .application-image {
+    margin-left: 0; 
+    margin-bottom: 15px; 
+  }
+}

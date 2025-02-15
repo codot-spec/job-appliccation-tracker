@@ -18,9 +18,9 @@ function fetchAndDisplayProfile() {
       .then(response => {
         const user = response.data;  // Assuming the response has user data
         // Display the user details
-        document.getElementById('name').textContent = user.name;
-        document.getElementById('email').textContent = user.email;
-        document.getElementById('password').textContent = user.password;  // Don't display actual password in production
+        document.getElementById('profileName').textContent = user.name;
+          document.getElementById('profileEmail').textContent = user.email;
+         // document.getElementById('profilePassword').textContent = user.password;
   
         // Set up edit and delete button actions
         document.getElementById('editButton').onclick = () => editUser(user.id, user.name, user.email, user.password);
@@ -69,9 +69,9 @@ function fetchAndDisplayProfile() {
     document.getElementById('editForm').style.display = 'block';
     document.getElementById('profile').style.display = 'none';
   
-    document.getElementById('name').value = name;
-    document.getElementById('email').value = email;
-    document.getElementById('password').value = password;
+    document.getElementById('editName').value = name;
+    document.getElementById('editEmail').value = email;
+    document.getElementById('editPassword').value = password;
   
     // Set the userId in the form's data attribute for later submission
     document.getElementById('form').dataset.userId = userId;
@@ -87,9 +87,9 @@ function fetchAndDisplayProfile() {
         const user = response.data;  // Assuming the response has user data
   
         // Display the user details again after the update
-        document.getElementById('name').textContent = user.name;
-        document.getElementById('email').textContent = user.email;
-        document.getElementById('password').textContent = user.password;  // Don't display actual password in production
+        document.getElementById('profileName').textContent = user.name;
+            document.getElementById('profileEmail').textContent = user.email;
+          //  document.getElementById('profilePassword').textContent = user.password;
   
         // Hide edit form and show profile again
         document.getElementById('editForm').style.display = 'none';

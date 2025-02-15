@@ -208,3 +208,40 @@ form button:hover {
   font-size: 16px;
   color: #333;
 }
+
+
+@media (max-width: 768px) {
+  /* Adjust header styles for smaller screens */
+  header {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  /* Adjust section styles for smaller screens */
+  section {
+      max-width: 100%; 
+      padding: 15px; 
+  }
+
+  /* Adjust form styles for smaller screens */
+  form {
+      max-width: 100%; 
+      padding: 20px; 
+  }
+
+  /* Adjust reminder list styles for smaller screens */
+  .reminder-container {
+      flex-direction: column; 
+      align-items: center; 
+  }
+
+  .reminder-details {
+      margin-bottom: 15px; 
+  }
+
+  /* Optional: Adjust pagination styles */
+  #paginationInfo {
+      flex-direction: column; 
+      align-items: flex-start; 
+  }
+}
